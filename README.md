@@ -73,10 +73,13 @@ The easiest way to initialize this repository and install required tools is usin
 ## 🔄 Daily Workflow
 
 ### Phase 1: Keep It Updated
-As you complete tasks, build side projects, or achieve metrics:
+As you complete tasks, build side projects, or achieve metrics, you don't need to update all tables manually. Simply describe what you did to your AI assistant (e.g., "I finished a Python project optimizing delivery routes by 15%"). 
+
+The agent will read [agents.md](./agents.md) and automatically:
 - Log details in `Employment/present.md` or `Projects/present.md`.
 - Sync new achievements and skills directly to the master [resume.html](./Employment/resume.html).
-- Archive old roles into `past.md` and add new numbers to [metrics_repository.md](./metrics_repository.md).
+- Archive old roles into `past.md` and append metrics to [metrics_repository.md](./metrics_repository.md).
+- Update the [skills_matrix.md](./skills_matrix.md).
 
 ### Phase 2: Tailoring to a Job
 When you find a job you want to apply to:
