@@ -1,0 +1,21 @@
+.antigravitycli/
+.DS_Store
+*.tmp
+*.log
+Employment/resume.pdf
+
+# Track folder structure but ignore contents
+consume/**
+!consume/
+!consume/**/
+!consume/**/.gitkeep
+
+archive/**
+!archive/
+!archive/**/
+!archive/**/.gitkeep
+
+Employment/tailored_resumes/**
+!Employment/tailored_resumes/
+!Employment/tailored_resumes/**/
+!Employment/tailored_resumes/**/.gitkeep
