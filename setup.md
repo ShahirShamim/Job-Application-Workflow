@@ -54,10 +54,18 @@ Write the content to the following files:
 - **references.md**: Populate with tables for their past companies, setting placeholders like `[Manager Name]`, `[Email]` so the user can easily fill them in.
 - **interview_prep.md**: Draft 1 or 2 STAR story skeletons based on their most prominent achievements.
 
-### Step 4: Verify and Build
+### Step 4: Install Dependencies
+To ensure the PDF generation script works, run the installation commands to set up the necessary Python libraries:
+```bash
+pip install playwright pypdf
+playwright install chromium
+```
+
+### Step 5: Verify and Build
 1. Check that all files are updated and contain no raw template tags (e.g. `[Your Name]`).
 2. Run `generate_pdf.py` to verify that the master HTML resume compiles successfully into a PDF:
    ```bash
    python Employment/generate_pdf.py
    ```
 3. Inform the user that setup is complete and provide a summary of the imported roles.
+
