@@ -52,25 +52,11 @@ Job Application Workflow/
 
 ## 🚀 Getting Started
 
-### 1. Installation
-
-This workflow uses Python and Playwright to render resumes. To install dependencies:
-
-```bash
-# Install required Python packages
-pip install playwright pypdf
-
-# Install Playwright's headless Chromium browser
-playwright install chromium
-```
-
-### 2. Initial Population (AI Agent Setup)
-
-The easiest way to initialize this repository is using an AI agent (like Claude or Gemini). 
+The easiest way to initialize this repository and install required tools is using an AI agent (like Claude or Gemini).
 
 1. Create a new chat session with your AI assistant.
 2. Share the [setup.md](./setup.md) file and your current resume (PDF, HTML, or plain text).
-3. The agent will read `setup.md`, parse your resume, and write the contents into the appropriate templates (`Employment/past.md`, `Education/past.md`, `skills_matrix.md`, `metrics_repository.md`, and `resume.html`).
+3. The agent will read `setup.md`, automatically install all necessary dependencies (like Playwright and other rendering packages), parse your resume, and populate the templates across the repository.
 
 ---
 
