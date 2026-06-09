@@ -4,6 +4,16 @@ A structured personal knowledge repository designed to manage your professional 
 
 ---
 
+## ⚡ Quick Start (AI Agent Setup)
+
+Copy and paste this prompt into a new chat with your AI assistant (e.g. Claude or Gemini) to set up your repository in seconds:
+
+```text
+I want to set up my job application workflow using the Second Brain template. Please clone or fetch the files from https://github.com/ShahirShamim/Job-Application-Workflow, read the setup.md file in that repository, and follow its step-by-step instructions to initialize the workspace with my professional history. I will provide my resume now.
+```
+
+---
+
 ## 🌟 Why Use This?
 
 - **Single Source of Truth**: Keep your entire career history, achievements, and metrics in one place.
