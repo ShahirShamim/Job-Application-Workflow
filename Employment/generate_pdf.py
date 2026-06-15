@@ -41,6 +41,15 @@ def process_file(page, html_path, pdf_path, target_pages=1, manual_scale=None, a
     
     if manual_scale is not None:
         print(f"Rendering {os.path.basename(html_path)} with manual scale: {manual_scale}")
+        if manual_scale < 0.75:
+            print(f"  → Manual scale {manual_scale:.2f} is below 0.75. Injecting margin and layout spacing adjustments...")
+            page.add_style_tag(content="""
+                @page { margin: 0.25in 0.35in !important; }
+                body { padding: 0.25in 0.35in !important; line-height: 1.05 !important; }
+                .job-block { margin-bottom: 4px !important; }
+                ul { padding-left: 1.0em !important; }
+                h2 { margin-top: 8px !important; margin-bottom: 4px !important; }
+            """)
         render_pdf(page, file_url, pdf_path, manual_scale)
         pages = get_page_count(pdf_path)
         print(f"Saved: {pdf_path} (Pages: {pages})")
@@ -48,6 +57,7 @@ def process_file(page, html_path, pdf_path, target_pages=1, manual_scale=None, a
         
     scale = 1.0
     temp_pdf = None
+    margins_adjusted = False
     
     try:
         # Use a temporary file to check page count during the scale fitting loop
@@ -55,6 +65,17 @@ def process_file(page, html_path, pdf_path, target_pages=1, manual_scale=None, a
         os.close(fd)
         
         while scale >= 0.5:
+            if auto_fit and scale < 0.75 and not margins_adjusted:
+                print(f"  → Scale fell below 0.75. Injecting margin and layout spacing adjustments...")
+                page.add_style_tag(content="""
+                    @page { margin: 0.25in 0.35in !important; }
+                    body { padding: 0.25in 0.35in !important; line-height: 1.05 !important; }
+                    .job-block { margin-bottom: 4px !important; }
+                    ul { padding-left: 1.0em !important; }
+                    h2 { margin-top: 8px !important; margin-bottom: 4px !important; }
+                """)
+                margins_adjusted = True
+                
             render_pdf(page, file_url, temp_pdf, scale)
             pages = get_page_count(temp_pdf)
             
@@ -106,16 +127,20 @@ def main():
             out_pdf = args.output
         else:
             base_name = os.path.splitext(os.path.basename(args.input))[0]
-            if base_name == "resume":
-                out_pdf = os.path.join(SCRIPT_DIR, "resume.pdf")
+            if base_name in ("resume", "cover_letter"):
+                out_pdf = os.path.join(SCRIPT_DIR, f"{base_name}.pdf")
             else:
                 out_pdf = os.path.join(PDF_DIR, f"{base_name}.pdf")
         jobs.append((args.input, out_pdf))
     else:
-        # Default: Process baseline resume.html and all HTMLs in tailored_resumes/
+        # Default: Process baseline resume.html, baseline cover_letter.html and all HTMLs in tailored_resumes/
         baseline_html = os.path.join(SCRIPT_DIR, "resume.html")
         if os.path.exists(baseline_html):
             jobs.append((baseline_html, os.path.join(SCRIPT_DIR, "resume.pdf")))
+            
+        baseline_cover = os.path.join(SCRIPT_DIR, "cover_letter.html")
+        if os.path.exists(baseline_cover):
+            jobs.append((baseline_cover, os.path.join(SCRIPT_DIR, "cover_letter.pdf")))
             
         if os.path.exists(TAILORED_DIR):
             for file in os.listdir(TAILORED_DIR):
@@ -151,11 +176,15 @@ def main():
         
         for html_path, pdf_path in jobs:
             try:
-                is_baseline = os.path.basename(html_path) == "resume.html"
+                is_resume_baseline = os.path.basename(html_path) == "resume.html"
+                is_cover_baseline = os.path.basename(html_path) == "cover_letter.html"
+                is_baseline = is_resume_baseline or is_cover_baseline
+                
                 target_pages = args.max_pages
-                # For master resume.html, default to 10 pages and disable auto-fit unless overridden
-                if is_baseline and "--max-pages" not in sys.argv:
+                if is_resume_baseline and "--max-pages" not in sys.argv:
                     target_pages = 10
+                elif is_cover_baseline and "--max-pages" not in sys.argv:
+                    target_pages = 1
                 
                 process_file(
                     page=page,

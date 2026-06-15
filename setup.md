@@ -32,24 +32,27 @@ Write the content to the following files:
 - Ensure all achievements use `<strong>[Achievement Area]:</strong>` and wrap key metrics (percentages, speedups, valuations) in `<span class="bold-metric">...</span>`.
 - Populate Projects and Education sections matching the exact HTML structure and CSS classes.
 
-#### 2. Employment History: `Employment/present.md` & `Employment/past.md`
+#### 2. Master HTML Cover Letter: `Employment/cover_letter.html`
+- Update the `<title>`, `<h1>` header, headline, contact information, and signature block with the user's details. Leave the date, recipient, and body paragraphs as placeholders.
+
+#### 3. Employment History: `Employment/present.md` & `Employment/past.md`
 - Move any *active* role to [present.md](./Employment/present.md).
 - Move all *previous* roles to [past.md](./Employment/past.md) in descending chronological order.
 - Format achievements into bullet lists by area (e.g., Feature, Optimization, Architecture, ML).
 
-#### 3. Education: `Education/present.md` & `Education/past.md`
+#### 4. Education: `Education/present.md` & `Education/past.md`
 - Populate degrees, honors, and coursework in [past.md](./Education/past.md).
 - Put active courses, self-study topics, or pending certifications in [present.md](./Education/present.md).
 
-#### 4. Projects: `Projects/present.md` & `Projects/past.md`
+#### 5. Projects: `Projects/present.md` & `Projects/past.md`
 - Populate any active projects in [present.md](./Projects/present.md).
 - Populate completed repositories and side projects in [past.md](./Projects/past.md).
 
-#### 5. Skills & Metrics Databases
+#### 6. Skills & Metrics Databases
 - Populate [skills_matrix.md](./skills_matrix.md) mapping their skills to where they were applied.
 - Scan their achievements for numbers (dollars, percentages, time savings) and populate [metrics_repository.md](./metrics_repository.md).
 
-#### 6. Support Files
+#### 7. Support Files
 - **applied.md**: Leave this empty but ensure the structure is intact.
 - **references.md**: Populate with tables for their past companies, setting placeholders like `[Manager Name]`, `[Email]` so the user can easily fill them in.
 - **interview_prep.md**: Draft 1 or 2 STAR story skeletons based on their most prominent achievements.

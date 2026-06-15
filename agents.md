@@ -91,7 +91,7 @@ When job spec added to [consume/jobs/](./consume/jobs/):
 1. **Analyze**: Parse job requirements.
 2. **Match**: Retrieve matching experience bullets and qualifications from [past.md](./Employment/past.md) and [present.md](./Employment/present.md).
 3. **Tailor**: Use the **Job Applier Workflow** skill to optimize bullets. Copy the master [resume.html](./Employment/resume.html) to [tailored_resumes/](./Employment/tailored_resumes/). Modify and prune bullets to fit on 1 page (leveraging the master resume as the comprehensive source of truth). Maintain layout/style exactly. Name format: `resume_[Company]_[Role]_[Month]_[Year].html`.
-4. **Cover Letter**: Write tailored cover letter using the Cover Letter Guide. Save as HTML name format: `cover_letter_[Company]_[Role]_[Month]_[Year].html` inside `tailored_resumes/cover_letters/`.
+4. **Cover Letter**: Copy the master [cover_letter.html](./Employment/cover_letter.html) to `tailored_resumes/cover_letters/` and customize its content using the Cover Letter Guide. Save as HTML name format: `cover_letter_[Company]_[Role]_[Month]_[Year].html` inside `tailored_resumes/cover_letters/`.
 5. **Compile PDF**: Run [generate_pdf.py](./Employment/generate_pdf.py) on the created/modified HTML resume and cover letter to produce or update matching PDFs in `tailored_resumes/PDFs/` and `tailored_resumes/cover_letters/PDFs/`.
 6. **Confirm**: Ask user review.
 7. **Tracker**: Append job to [applied.md](./Employment/applied.md). List company, role, date, status. Link to their future archive paths (under `archive/tailored_resumes/`).

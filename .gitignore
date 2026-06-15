@@ -3,6 +3,7 @@
 *.tmp
 *.log
 Employment/resume.pdf
+Employment/cover_letter.pdf
 
 # Track folder structure but ignore contents
 consume/**
