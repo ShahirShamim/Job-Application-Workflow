@@ -29,10 +29,11 @@ Second Brain/
 │   ├── generate_pdf.py   # Playwright HTML→PDF compiler
 │   └── tailored_resumes/
 │       ├── *.html                  # Active tailored resumes (not yet archived)
-│       ├── PDFs/                   # Compiled resume PDFs
+│       ├── resume-pdfs/            # Compiled resume PDFs
+│       ├── coverletter-pdfs/       # Compiled cover letter PDFs
 │       ├── cover_letters/
 │       │   ├── *.html              # Active cover letter HTMLs
-│       │   └── PDFs/               # Compiled cover letter PDFs
+│       │   └── *.txt               # Active cover letter plain texts
 │       └── outreach/
 │           └── *.txt               # Active outreach messages (.txt files)
 ├── Education/
@@ -50,10 +51,11 @@ Second Brain/
 │   ├── jobs/             # Archived job specs
 │   └── tailored_resumes/
 │       ├── *.html                  # Archived resume HTMLs
-│       ├── PDFs/                   # Archived resume PDFs
+│       ├── resume-pdfs/            # Archived resume PDFs
+│       ├── coverletter-pdfs/       # Archived cover letter PDFs
 │       ├── cover_letters/
 │       │   ├── *.html              # Archived cover letter HTMLs
-│       │   └── PDFs/               # Archived cover letter PDFs
+│       │   └── *.txt               # Archived cover letter plain texts
 │       └── outreach/
 │           └── *.txt               # Archived outreach messages (.txt files)
 ├── skills_matrix.md      # Tech skills map
@@ -133,8 +135,8 @@ cd Employment && python3 generate_pdf.py
 ```
 
 The script auto-discovers all HTML files and writes:
-- Resume PDFs → `tailored_resumes/PDFs/`
-- Cover letter PDFs → `tailored_resumes/cover_letters/PDFs/`
+- Resume PDFs → `tailored_resumes/resume-pdfs/`
+- Cover letter PDFs → `tailored_resumes/coverletter-pdfs/`
 
 Each PDF is auto-scaled to fit exactly 1 page.
 
@@ -149,7 +151,7 @@ Do not log or archive anything yet.
 Append a new row to the `Employment/applied.md` table under the correct Year/Month heading. Use this exact format:
 
 ```markdown
-| **[Company]** | [Full Role Title] | [Month Day, Year] | Applied | [Resume HTML](../archive/tailored_resumes/resume_[slug].html) • [Resume PDF](../archive/tailored_resumes/PDFs/resume_[slug].pdf)<br>[Cover Letter HTML](../archive/tailored_resumes/cover_letters/cover_letter_[slug].html) • [Cover Letter PDF](../archive/tailored_resumes/cover_letters/PDFs/cover_letter_[slug].pdf) • [Cover Letter TXT](../archive/tailored_resumes/cover_letters/cover_letter_[slug].txt)<br>[Outreach Message](../archive/tailored_resumes/outreach/outreach_[slug].txt) |
+| **[Company]** | [Full Role Title] | [Month Day, Year] | Applied | [Resume HTML](../archive/tailored_resumes/resume_[slug].html) • [Resume PDF](../archive/tailored_resumes/resume-pdfs/resume_[slug].pdf)<br>[Cover Letter HTML](../archive/tailored_resumes/cover_letters/cover_letter_[slug].html) • [Cover Letter PDF](../archive/tailored_resumes/coverletter-pdfs/cover_letter_[slug].pdf) • [Cover Letter TXT](../archive/tailored_resumes/cover_letters/cover_letter_[slug].txt)<br>[Outreach Message](../archive/tailored_resumes/outreach/outreach_[slug].txt) |
 ```
 
 Note: links point to the **archive** paths (where they will be after step 6), not the current `tailored_resumes/` paths.
@@ -162,11 +164,11 @@ Also increment the summary count at the top of `applied.md` (e.g. `**June 2026**
 ```bash
 # Resumes
 mv "tailored_resumes/resume_[slug].html" "../../archive/tailored_resumes/"
-mv "tailored_resumes/PDFs/resume_[slug].pdf" "../../archive/tailored_resumes/PDFs/"
+mv "tailored_resumes/resume-pdfs/resume_[slug].pdf" "../../archive/tailored_resumes/resume-pdfs/"
 
 # Cover letters
 mv "tailored_resumes/cover_letters/cover_letter_[slug].html" "../../archive/tailored_resumes/cover_letters/"
-mv "tailored_resumes/cover_letters/PDFs/cover_letter_[slug].pdf" "../../archive/tailored_resumes/cover_letters/PDFs/"
+mv "tailored_resumes/coverletter-pdfs/cover_letter_[slug].pdf" "../../archive/tailored_resumes/coverletter-pdfs/"
 mv "tailored_resumes/cover_letters/cover_letter_[slug].txt" "../../archive/tailored_resumes/cover_letters/"
 
 # Outreach messages
@@ -273,15 +275,15 @@ Outreach messages must follow the high-impact "tldr-driven" cold email format to
 |---|---|
 | Generate PDFs | `cd Employment && python3 generate_pdf.py` |
 | Resume HTML output | `Employment/tailored_resumes/resume_[slug].html` |
-| Resume PDF output | `Employment/tailored_resumes/PDFs/resume_[slug].pdf` |
+| Resume PDF output | `Employment/tailored_resumes/resume-pdfs/resume_[slug].pdf` |
 | Cover letter HTML output | `Employment/tailored_resumes/cover_letters/cover_letter_[slug].html` |
-| Cover letter PDF output | `Employment/tailored_resumes/cover_letters/PDFs/cover_letter_[slug].pdf` |
+| Cover letter PDF output | `Employment/tailored_resumes/coverletter-pdfs/cover_letter_[slug].pdf` |
 | Cover letter TXT output | `Employment/tailored_resumes/cover_letters/cover_letter_[slug].txt` |
 | Outreach message output | `Employment/tailored_resumes/outreach/outreach_[slug].txt` |
 | Archive resume HTML | `archive/tailored_resumes/resume_[slug].html` |
-| Archive resume PDF | `archive/tailored_resumes/PDFs/resume_[slug].pdf` |
+| Archive resume PDF | `archive/tailored_resumes/resume-pdfs/resume_[slug].pdf` |
 | Archive cover letter HTML | `archive/tailored_resumes/cover_letters/cover_letter_[slug].html` |
-| Archive cover letter PDF | `archive/tailored_resumes/cover_letters/PDFs/cover_letter_[slug].pdf` |
+| Archive cover letter PDF | `archive/tailored_resumes/coverletter-pdfs/cover_letter_[slug].pdf` |
 | Archive cover letter TXT | `archive/tailored_resumes/cover_letters/cover_letter_[slug].txt` |
 | Archive outreach message | `archive/tailored_resumes/outreach/outreach_[slug].txt` |
 | Archive job spec | `archive/jobs/[date].txt` |

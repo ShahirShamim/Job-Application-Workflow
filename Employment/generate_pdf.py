@@ -10,7 +10,7 @@ from pypdf import PdfReader
 # Default directories
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 TAILORED_DIR = os.path.join(SCRIPT_DIR, "tailored_resumes")
-PDF_DIR = os.path.join(TAILORED_DIR, "PDFs")
+PDF_DIR = os.path.join(TAILORED_DIR, "resume-pdfs")
 
 def get_page_count(pdf_path):
     """Returns the page count of the PDF at pdf_path."""
@@ -152,7 +152,7 @@ def main():
                     
             # Process cover letters
             cover_letters_dir = os.path.join(TAILORED_DIR, "cover_letters")
-            cover_letters_pdf_dir = os.path.join(cover_letters_dir, "PDFs")
+            cover_letters_pdf_dir = os.path.join(TAILORED_DIR, "coverletter-pdfs")
             if os.path.exists(cover_letters_dir):
                 os.makedirs(cover_letters_pdf_dir, exist_ok=True)
                 for file in os.listdir(cover_letters_dir):

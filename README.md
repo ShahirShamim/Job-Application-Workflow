@@ -35,8 +35,9 @@ Job Application Workflow/
 │   ├── references.md     # Reference sheet for supervisors & peers
 │   ├── resume.html       # Master baseline resume (HTML/CSS)
 │   └── tailored_resumes/ # Workspace for active job applications
-│       ├── PDFs/         # Output folder for generated PDFs
-│       └── cover_letters/ # Tailored HTML cover letters & their PDFs
+│       ├── resume-pdfs/  # Output folder for generated resume PDFs
+│       ├── coverletter-pdfs/ # Output folder for generated cover letter PDFs
+│       └── cover_letters/ # Tailored HTML cover letters & plain text outreach
 ├── Education/
 │   ├── past.md           # Degrees, honors, thesis work, and coursework
 │   ├── present.md        # Active courses & ongoing self-study
