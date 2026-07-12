@@ -26,7 +26,15 @@ Second Brain/
 │   ├── references.md     # Reference list
 │   ├── resume.html       # Master baseline resume
 │   ├── resume.pdf        # Master baseline resume PDF (ignored)
-│   └── tailored_resumes/ # Tailored resumes
+│   ├── generate_pdf.py   # Playwright HTML→PDF compiler
+│   └── tailored_resumes/
+│       ├── *.html                  # Active tailored resumes (not yet archived)
+│       ├── PDFs/                   # Compiled resume PDFs
+│       ├── cover_letters/
+│       │   ├── *.html              # Active cover letter HTMLs
+│       │   └── PDFs/               # Compiled cover letter PDFs
+│       └── outreach/
+│           └── *.txt               # Active outreach messages (.txt files)
 ├── Education/
 │   ├── past.md           # Degrees/research
 │   ├── present.md        # Active courses/certs
@@ -37,12 +45,17 @@ Second Brain/
 │   ├── future.md         # Backlog ideas
 │   └── system_designs.md # Architecture notes
 ├── consume/              # Inbound docs (ignored)
-│   └── jobs/             # Job specs
+│   └── jobs/             # Job specs (date-named .txt files)
 ├── archive/              # Processed docs (ignored)
-│   ├── Resume.pdf        # Master resume archive (PDF)
-│   ├── resume_b.html
-│   ├── jobs/             # Past job specs
-│   └── tailored_resumes/ # Archived tailored resumes & cover letters
+│   ├── jobs/             # Archived job specs
+│   └── tailored_resumes/
+│       ├── *.html                  # Archived resume HTMLs
+│       ├── PDFs/                   # Archived resume PDFs
+│       ├── cover_letters/
+│       │   ├── *.html              # Archived cover letter HTMLs
+│       │   └── PDFs/               # Archived cover letter PDFs
+│       └── outreach/
+│           └── *.txt               # Archived outreach messages (.txt files)
 ├── skills_matrix.md      # Tech skills map
 ├── metrics_repository.md # Metrics DB
 └── agents.md             # This file
@@ -87,59 +100,189 @@ When files added to [consume/](./consume/):
 4. **Archive**: Move to [archive/](./archive/).
 
 ### 4. Job Applications
-When job spec added to [consume/jobs/](./consume/jobs/):
-1. **Analyze**: Parse job requirements.
-2. **Match**: Retrieve matching experience bullets and qualifications from [past.md](./Employment/past.md) and [present.md](./Employment/present.md).
-3. **Tailor**: Use the **Job Applier Workflow** skill to optimize bullets. Copy the master [resume.html](./Employment/resume.html) to [tailored_resumes/](./Employment/tailored_resumes/). Modify and prune bullets to fit on 1 page (leveraging the master resume as the comprehensive source of truth). Maintain layout/style exactly. Name format: `resume_[Company]_[Role]_[Month]_[Year].html`.
-4. **Cover Letter**: Copy the master [cover_letter.html](./Employment/cover_letter.html) to `tailored_resumes/cover_letters/` and customize its content using the Cover Letter Guide. Save as HTML name format: `cover_letter_[Company]_[Role]_[Month]_[Year].html` inside `tailored_resumes/cover_letters/`.
-5. **Compile PDF**: Run [generate_pdf.py](./Employment/generate_pdf.py) on the created/modified HTML resume and cover letter to produce or update matching PDFs in `tailored_resumes/PDFs/` and `tailored_resumes/cover_letters/PDFs/`.
-6. **Confirm**: Ask user review.
-7. **Tracker**: Append job to [applied.md](./Employment/applied.md). List company, role, date, status. Link to their future archive paths (under `archive/tailored_resumes/`).
-8. **Archive (On Apply)**: DO NOT move the HTML and PDF resumes/cover letters from `tailored_resumes/` to the `archive/` folder, and DO NOT move the job spec from `consume/jobs/` to `archive/jobs/` until the user explicitly confirms they have applied. Once confirmed:
-   - Move HTML and PDF resumes/cover letters from `tailored_resumes/` to `archive/tailored_resumes/` (preserving subfolder structure).
-   - Move job spec from `consume/jobs/` to `archive/jobs/`.
-9. **User Questions**: If the user asks any questions related to the application, writing prompts, or interview questions after consuming a job, answer in text that feels genuinely human-written. Do not use bullet points, dash lists (`-`), bolded list headers, or other common robotic/AI traits. Write in natural, continuous, and conversational paragraphs.
+
+Triggered when job specs are present in [consume/jobs/](./consume/jobs/).
+
+**For each job spec, complete all steps below before moving on to the next:**
+
+#### Step 1 — Tailor Resume
+- Read `Employment/past.md` and `Employment/present.md` to source experience bullets.
+- Copy the master `Employment/resume.html` as the base. Do not start from scratch.
+- Prune and tailor bullets to fit on **exactly 1 page** — prioritize the experience and projects most relevant to the job spec.
+- Maintain the exact same HTML layout, CSS, and style as the master resume.
+- Keep professional experience in descending chronological order (newest first). Never reorder blocks.
+- Save as: `tailored_resumes/resume_[Company]_[RoleCode]_[Month]_[Year].html`
+  - Example: `resume_Orbital_PM_June_2026.html`
+
+#### Step 2 — Write Cover Letter
+- Follow the **Cover Letter Guide** below.
+- Address to a named recruiter if one is identified in the job spec; otherwise use "Hiring Team / [Company]".
+- Save as: `tailored_resumes/cover_letters/cover_letter_[Company]_[RoleCode]_[Month]_[Year].html`
+  - Example: `cover_letter_Orbital_PM_June_2026.html`
+
+#### Step 2.5 — Write Outreach Message
+- Follow the **Outreach Message Guide** below.
+- Save as a plain text file: `tailored_resumes/outreach/outreach_[Company]_[RoleCode]_[Month]_[Year].txt`
+  - Example: `outreach_Orbital_PM_June_2026.txt`
+
+#### Step 3 — Compile PDFs
+Run the PDF generation script from the `Employment/` directory. **Always use the miniconda Python interpreter** (or your local python environment with Playwright configured).
+
+```bash
+cd Employment && python3 generate_pdf.py
+```
+
+The script auto-discovers all HTML files and writes:
+- Resume PDFs → `tailored_resumes/PDFs/`
+- Cover letter PDFs → `tailored_resumes/cover_letters/PDFs/`
+
+Each PDF is auto-scaled to fit exactly 1 page.
+
+#### Step 4 — Confirm with User
+Present a summary of what was created (company, resume path, cover letter path, outreach path, PDF paths). Ask the user to review before proceeding.
+
+Do not log or archive anything yet.
+
+#### Step 5 — Log to Tracker (On Apply Confirmation Only)
+**Wait for explicit user confirmation that they have applied before doing this step.**
+
+Append a new row to the `Employment/applied.md` table under the correct Year/Month heading. Use this exact format:
+
+```markdown
+| **[Company]** | [Full Role Title] | [Month Day, Year] | Applied | [Resume HTML](../archive/tailored_resumes/resume_[slug].html) • [Resume PDF](../archive/tailored_resumes/PDFs/resume_[slug].pdf)<br>[Cover Letter HTML](../archive/tailored_resumes/cover_letters/cover_letter_[slug].html) • [Cover Letter PDF](../archive/tailored_resumes/cover_letters/PDFs/cover_letter_[slug].pdf) • [Cover Letter TXT](../archive/tailored_resumes/cover_letters/cover_letter_[slug].txt)<br>[Outreach Message](../archive/tailored_resumes/outreach/outreach_[slug].txt) |
+```
+
+Note: links point to the **archive** paths (where they will be after step 6), not the current `tailored_resumes/` paths.
+
+Also increment the summary count at the top of `applied.md` (e.g. `**June 2026**: 35 applications` → `36`).
+
+#### Step 6 — Archive (On Apply Confirmation Only)
+**Only after step 5 is complete**, move all files for the confirmed applications:
+
+```bash
+# Resumes
+mv "tailored_resumes/resume_[slug].html" "../../archive/tailored_resumes/"
+mv "tailored_resumes/PDFs/resume_[slug].pdf" "../../archive/tailored_resumes/PDFs/"
+
+# Cover letters
+mv "tailored_resumes/cover_letters/cover_letter_[slug].html" "../../archive/tailored_resumes/cover_letters/"
+mv "tailored_resumes/cover_letters/PDFs/cover_letter_[slug].pdf" "../../archive/tailored_resumes/cover_letters/PDFs/"
+mv "tailored_resumes/cover_letters/cover_letter_[slug].txt" "../../archive/tailored_resumes/cover_letters/"
+
+# Outreach messages
+mv "tailored_resumes/outreach/outreach_[slug].txt" "../../archive/tailored_resumes/outreach/"
+
+# Job spec
+mv "../../consume/jobs/[date].txt" "../../archive/jobs/"
+```
+
+The job spec file is only archived once all jobs in that file have been confirmed applied.
+
+---
+
+#### Application Q&A
+
+When the user asks questions about an application, interview prep, or prompts related to a job — answer in natural, continuous prose. No bullet points, no dash lists, no bolded list headers. Write as a human would write, in conversational paragraphs.
 
 ---
 
 ## 📝 Cover Letter Guide
 
-Cover letter marketing tool. No story book. Keep 1 A4 page. Sell self.
+A cover letter is a marketing document. Keep to 1 A4 page. Sell the candidate — no storytelling for its own sake.
 
-### Step 1: Parse Job Spec
+### Formatting Rules
+- **Style**: Times New Roman 11pt, clean layout — match the resume header exactly (name, contact info, date, recipient block).
+- **Length**: 1 A4 page. 5–6 paragraphs maximum.
+- **Tone**: Natural, human, confident prose. No bullet points, no dash lists (`-`), no numbered lists, no bolded paragraph headers anywhere in the letter body.
+- **Save**: HTML first, then compile to PDF via `generate_pdf.py`. Also produce a plain `.txt` version in the `cover_letters/` directory.
 
-1. Read "What you do". Highlight top bullets matching past work.
-2. Read "Qualifications". Highlight met requirements and nice-to-haves.
-3. Make two-column table. Left: job requirements. Right: matching experience. Use exact terms from spec (speak employer language).
-4. Select top two qualifications.
+---
 
-### Step 2: Research Company
+### Step 1: Parse the Job Spec
 
-Find two reasons for fit:
-1. Value-driven reason (principles, culture, mission).
-2. Topical reason (news, product launch, funding, blog post).
-Connect both to personal goals.
+1. Read the responsibilities section. Identify the top 2–3 bullets that match past work most directly.
+2. Read the qualifications. Identify met requirements and nice-to-haves.
+3. Select **two** qualifications to anchor the match paragraphs.
+4. Note the company name, recruiter name (if present), and any named products, partners, or recent news.
 
-### Step 3: Write Cover Letter Structure
+---
 
-1. **Header**: Personal contact info, date, recipient details.
-2. **Intro** (1-2 sentences): State target role, intent, belief. Highlight key strength. Mention specific company detail.
-3. **Transition**:
-   - Write summary statement: achievements, metrics, tech from past year. No jargon, high specificity.
-   - Flow sentence: "Over past 12 months, I [metrics]. Excited to contribute at [Company]. Three reasons make me perfect fit:"
-4. **Match Body** (2 paragraphs):
-   - Map each qualification to theme. Themes: *Leading People, Taking Initiative, Challenge Affinity, Different Work Affinity, Specific Work Affinity, Failure Management, Conflict Management, Curiosity Driven*.
-   - Paragraph structure:
-     - Sentence 1 (Theme): "Theme defining career is [theme]."
-     - Sentence 2 (Qualification): Connect theme to qualification.
-     - Sentence 3 (Story): Detail specific story, back with bold metrics.
-5. **Company Fit** (1 paragraph):
-   - Weave value reason and topical reason.
-   - Template: "Third, follow [Company] closely. Resonate with values and direction. [Value] stands out because [Reason]. Also read [Topical Reason] which appeals because [Why]."
-6. **Conclusion**:
-   - Terse closing: "Experience fits [Company] and [Role]. Ready to level up skills with team. Look forward to hearing back. Sincerely, [Name]."
+### Step 2: Research Company Fit
 
-### Formatting
+Identify two reasons for fit:
+1. **Value/mission reason** — principles, culture, or problem domain that resonates.
+2. **Topical reason** — funding round, product launch, named partnership, blog post, or market timing.
 
-Match resume style (Times New Roman, 11pt, clean layout). Save HTML, compile PDF.
+Connect both to the candidate's goals.
 
+---
+
+### Step 3: Write the Letter
+
+**Header**
+- Name, contact info (matching resume header)
+- Date (full: e.g. "22 June 2026")
+- Recipient: Named recruiter + title + company if known; otherwise "Hiring Team / [Company]"
+
+**Paragraph 1 — Intro** (2 sentences max)
+- State the role being applied for.
+- Lead with one strong differentiating claim + one specific company detail that signals genuine interest.
+
+**Paragraph 2 — 12-Month Transition**
+- Summarize the past 12 months: 3–4 achievements with metrics and tech, high specificity, no jargon.
+- End with: "I am excited to contribute at [Company]. Three reasons make me a strong fit."
+
+**Paragraph 3 — First Match (Experience Theme)**
+- Opening sentence states the career theme (e.g. "The defining theme of my product work is…").
+- Connect the theme to the first selected qualification.
+- One specific story from experience, backed by a bold metric.
+- Themes to draw from: *Leading People, Taking Initiative, Challenge Affinity, Specific Work Affinity, Technical Depth, Cross-functional Complexity, Failure Management, Curiosity Driven*.
+
+**Paragraph 4 — Second Match (Experience Theme)**
+- Same structure: theme → qualification → story + metric.
+- Use a different theme and a different role/experience than paragraph 3.
+
+**Paragraph 5 — Company Fit**
+- Open with: "Third, I follow [Company] closely."
+- Weave the value reason and topical reason together.
+- Connect both to what makes this role exciting at this specific moment for the company.
+
+**Paragraph 6 — Closing** (2 sentences)
+- Terse. "I would welcome the chance to discuss the role. Thank you for your time."
+- Sign off: "Sincerely, [Name]"
+
+---
+
+## ✉️ Outreach Message Guide
+
+Outreach messages must follow the high-impact "tldr-driven" cold email format to maximize response rates. Keep it concise, direct, and focused on execution over strategy.
+
+### Formatting Rules
+- **Subject**: Use standard patterns like `RE: [Role Title] at [Company]`.
+- **tldr; Block**: Place a `tldr;` section at the very top. Keep it punchy, honest, and execution-oriented (e.g., stating a preference for shipping features over strategy decks, and detailing your specific focus).
+- **Paragraph 1 — Credibility**: Briefly state interest in the role and establish background credibility by listing 5 years of experience at previous companies with links to their websites.
+- **Paragraph 2 — Core Value Proposition**: Focus on the specific system implementations and metrics relevant to the target role (e.g., ML personalization engines driving metrics, compliance pipelines, cohort tracking).
+- **Paragraph 3 — Relocation & Close**: Express interest in joining the team, specify relocation/location details if relevant, and ask for a 15-minute chat.
+- **Sign off**: Use a brief closure and include links to your contact info, LinkedIn, and GitHub.
+
+---
+
+## 🔖 Quick Reference
+
+| Task | Command / Path |
+|---|---|
+| Generate PDFs | `cd Employment && python3 generate_pdf.py` |
+| Resume HTML output | `Employment/tailored_resumes/resume_[slug].html` |
+| Resume PDF output | `Employment/tailored_resumes/PDFs/resume_[slug].pdf` |
+| Cover letter HTML output | `Employment/tailored_resumes/cover_letters/cover_letter_[slug].html` |
+| Cover letter PDF output | `Employment/tailored_resumes/cover_letters/PDFs/cover_letter_[slug].pdf` |
+| Cover letter TXT output | `Employment/tailored_resumes/cover_letters/cover_letter_[slug].txt` |
+| Outreach message output | `Employment/tailored_resumes/outreach/outreach_[slug].txt` |
+| Archive resume HTML | `archive/tailored_resumes/resume_[slug].html` |
+| Archive resume PDF | `archive/tailored_resumes/PDFs/resume_[slug].pdf` |
+| Archive cover letter HTML | `archive/tailored_resumes/cover_letters/cover_letter_[slug].html` |
+| Archive cover letter PDF | `archive/tailored_resumes/cover_letters/PDFs/cover_letter_[slug].pdf` |
+| Archive cover letter TXT | `archive/tailored_resumes/cover_letters/cover_letter_[slug].txt` |
+| Archive outreach message | `archive/tailored_resumes/outreach/outreach_[slug].txt` |
+| Archive job spec | `archive/jobs/[date].txt` |
+| Application tracker | `Employment/applied.md` |
