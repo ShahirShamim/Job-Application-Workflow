@@ -7,7 +7,7 @@ Guide for AI agents (Gemini/Claude/Codex) in this directory. Define intent, stru
 ## 🌟 Intent
 
 This Second Brain tracks your experience, education, and projects, acting as a single source of truth:
-- **Master Resume**: Comprehensive database of all experience, projects, and skills to tailor from.
+- **Master Resumes**: Comprehensive database of all experience, projects, and skills to tailor from (Product/Tech baseline and Consulting/Strategy baseline).
 - **Interviews**: STAR stories, specs check.
 - **Plan**: Track tasks, brainstorm ideas.
 
@@ -24,8 +24,10 @@ Second Brain/
 │   ├── applied.md        # Job application tracker
 │   ├── interview_prep.md # STAR PM stories
 │   ├── references.md     # Reference list
-│   ├── resume.html       # Master baseline resume
+│   ├── resume.html       # Master baseline resume (Product / Tech)
 │   ├── resume.pdf        # Master baseline resume PDF (ignored)
+│   ├── resume_consulting.html # Master baseline resume (Strategy & Consulting)
+│   ├── resume_consulting.pdf  # Master baseline resume PDF (Strategy & Consulting)
 │   ├── generate_pdf.py   # Playwright HTML→PDF compiler
 │   └── tailored_resumes/
 │       ├── *.html                  # Active tailored resumes (not yet archived)
@@ -97,7 +99,7 @@ When task/role ends or new experiences/projects are added:
 ### 3. Consume
 When files added to [consume/](./consume/):
 1. **Parse**: Extract achievements, metrics, designs.
-2. **Update**: Distribute edits to past, present, skills, metrics, and sync all new content into the master [resume.html](./Employment/resume.html).
+2. **Update**: Distribute edits to past, present, skills, metrics, and sync all new content into the master [resume.html](./Employment/resume.html) and [resume_consulting.html](./Employment/resume_consulting.html).
 3. **Confirm**: Ask user for approval.
 4. **Archive**: Move to [archive/](./archive/).
 
@@ -109,13 +111,17 @@ Triggered when job specs are present in [consume/jobs/](./consume/jobs/).
 
 #### Step 1 — Tailor Resume
 - Read `Employment/past.md` and `Employment/present.md` to source experience bullets.
-- Copy the master `Employment/resume.html` as the base. Do not start from scratch.
+- Choose the appropriate master baseline resume to tailor from:
+  - **Product / Tech roles**: Use master `Employment/resume.html` (Product / Tech focus).
+  - **Strategy & Consulting roles**: Use master `Employment/resume_consulting.html` (Strategy, M&A due diligence, financial modeling, and advisory focus).
+- **Layout & Section Ordering**:
+  - For Product/Tech: Standard product hierarchy (Summary → Experience → Projects → Skills → Education).
+  - For Consulting/Advisory: Either Education at the top (classic consulting standard) or Skills & Activities at the top per client engagement conventions, followed by deep quantitative experience bullets and descending chronology.
 - Prune and tailor bullets to fit on **exactly 1 page** — prioritize the experience and projects most relevant to the job spec.
-- Maintain the exact same HTML layout, CSS, and style as the master resume.
+- Maintain the exact same HTML layout, CSS, and style as the base master resume.
 - Keep professional experience in descending chronological order (newest first). Never reorder blocks.
 - Save as: `tailored_resumes/resume_[Company]_[RoleCode]_[Month]_[Year].html`
   - Example: `resume_Orbital_PM_June_2026.html`
-
 #### Step 2 — Write Cover Letter
 - Follow the **Cover Letter Guide** below.
 - Address to a named recruiter if one is identified in the job spec; otherwise use "Hiring Team / [Company]".

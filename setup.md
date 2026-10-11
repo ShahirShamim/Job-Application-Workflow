@@ -26,11 +26,14 @@ Distribute the extracted information into the repository templates. Ensure you s
 
 Write the content to the following files:
 
-#### 1. Master HTML Resume: `Employment/resume.html`
-- Update the `<title>`, `<h1>` header, headline, contact information, summary, and core competencies.
-- Replace the placeholder `.job-block` elements with their actual professional history.
-- Ensure all achievements use `<strong>[Achievement Area]:</strong>` and wrap key metrics (percentages, speedups, valuations) in `<span class="bold-metric">...</span>`.
-- Populate Projects and Education sections matching the exact HTML structure and CSS classes.
+#### 1. Master Baseline Resumes: `Employment/resume.html` & `Employment/resume_consulting.html`
+- **Product / Tech Resume (`resume.html`)**:
+  - Update `<title>`, `<h1>` header, headline, contact info, summary, and core competencies.
+  - Replace placeholder `.job-block` elements with product/engineering history.
+  - Wrap key metrics in `<span class="bold-metric">...</span>` and achievements in `<strong>[Achievement Area]:</strong>`.
+- **Strategy & Consulting Resume (`resume_consulting.html`)**:
+  - Update header with candidate contact details.
+  - Populate Education, Work & Leadership Experience, and Skills & Activities blocks tailored for advisory, corporate finance, transactions, and strategy roles.
 
 #### 2. Master HTML Cover Letter: `Employment/cover_letter.html`
 - Update the `<title>`, `<h1>` header, headline, contact information, and signature block with the user's details. Leave the date, recipient, and body paragraphs as placeholders.

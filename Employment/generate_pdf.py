@@ -127,7 +127,7 @@ def main():
             out_pdf = args.output
         else:
             base_name = os.path.splitext(os.path.basename(args.input))[0]
-            if base_name in ("resume", "cover_letter"):
+            if base_name in ("resume", "cover_letter", "resume_consulting"):
                 out_pdf = os.path.join(SCRIPT_DIR, f"{base_name}.pdf")
             else:
                 out_pdf = os.path.join(PDF_DIR, f"{base_name}.pdf")
@@ -141,6 +141,10 @@ def main():
         baseline_cover = os.path.join(SCRIPT_DIR, "cover_letter.html")
         if os.path.exists(baseline_cover):
             jobs.append((baseline_cover, os.path.join(SCRIPT_DIR, "cover_letter.pdf")))
+
+        baseline_consulting = os.path.join(SCRIPT_DIR, "resume_consulting.html")
+        if os.path.exists(baseline_consulting):
+            jobs.append((baseline_consulting, os.path.join(SCRIPT_DIR, "resume_consulting.pdf")))
             
         if os.path.exists(TAILORED_DIR):
             for file in os.listdir(TAILORED_DIR):
@@ -177,11 +181,12 @@ def main():
         for html_path, pdf_path in jobs:
             try:
                 is_resume_baseline = os.path.basename(html_path) == "resume.html"
+                is_consulting_baseline = os.path.basename(html_path) == "resume_consulting.html"
                 is_cover_baseline = os.path.basename(html_path) == "cover_letter.html"
-                is_baseline = is_resume_baseline or is_cover_baseline
+                is_baseline = is_resume_baseline or is_consulting_baseline or is_cover_baseline
                 
                 target_pages = args.max_pages
-                if is_resume_baseline and "--max-pages" not in sys.argv:
+                if (is_resume_baseline or is_consulting_baseline) and "--max-pages" not in sys.argv:
                     target_pages = 10
                 elif is_cover_baseline and "--max-pages" not in sys.argv:
                     target_pages = 1

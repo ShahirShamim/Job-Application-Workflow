@@ -18,6 +18,7 @@ I want to set up my job application workflow using the Second Brain template. Pl
 
 - **Single Source of Truth**: Keep your entire career history, achievements, and metrics in one place.
 - **AI-Agent Native**: Includes detailed guidelines and a setup routine that allows LLM agents to manage and update your files, tailor applications, and parse incoming jobs.
+- **Dual Baseline Resumes**: Includes master templates for both **Product / Tech** roles (`resume.html`) and **Strategy & Consulting** roles (`resume_consulting.html`) with proven advisory layouts (education hierarchy, due diligence, and financial modeling).
 - **Automated Formatting**: A Python script uses **Playwright** to compile print-optimized HTML resumes and cover letters into A4 PDFs. It features an **auto-fitting loop** that dynamically scales font size to ensure tailored documents fit exactly on a single page.
 
 ---
@@ -33,7 +34,8 @@ Job Application Workflow/
 │   ├── applied.md        # Job application tracker
 │   ├── interview_prep.md # STAR stories for behavioral interviews
 │   ├── references.md     # Reference sheet for supervisors & peers
-│   ├── resume.html       # Master baseline resume (HTML/CSS)
+│   ├── resume.html       # Master baseline resume: Product / Tech (HTML/CSS)
+│   ├── resume_consulting.html # Master baseline resume: Strategy & Consulting (HTML/CSS)
 │   └── tailored_resumes/ # Workspace for active job applications
 │       ├── resume-pdfs/  # Output folder for generated resume PDFs
 │       ├── coverletter-pdfs/ # Output folder for generated cover letter PDFs
@@ -87,6 +89,7 @@ When you find a job you want to apply to:
 1. Drop the job spec text into `consume/jobs/` (e.g. `spec_Company_Role.txt`).
 2. Ask your AI agent to review the spec and match it against your `past.md` and `skills_matrix.md`.
 3. The agent will:
+   - Choose the appropriate baseline (`resume.html` for Product/Tech, or `resume_consulting.html` for Strategy/Consulting).
    - Create a tailored resume in `tailored_resumes/` named `resume_[Company]_[Role]_[Month]_[Year].html`.
    - Write a matching cover letter in `tailored_resumes/cover_letters/` named `cover_letter_[Company]_[Role]_[Month]_[Year].html`.
    - Ensure the content is selected and pruned to fit on exactly **1 A4 page**.
